@@ -8,14 +8,14 @@ public class FiguresJaneAdapter extends AbstractDriver {
     private Job2dDriver driver;
 
     public FiguresJaneAdapter(Job2dDriver driver) {
-        super(0, 0);
+        super(0, 0); // Początkowa pozycja (0,0)
         this.driver = driver;
     }
 
     @Override
     public void operateTo(int x, int y) {
         driver.operateTo(x, y);
-        setPosition(x, y);
+        setPosition(x, y); // Aktualizacja pozycji
     }
 
     public void drawFiguresJane() {
