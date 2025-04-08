@@ -19,6 +19,7 @@ public class SelectTestFigureOptionListener implements ActionListener {
 	public SelectTestFigureOptionListener(DriverManager driverManager, Figure figure) {
 		this.driverManager = driverManager;
 		this.figure = Figure.valueOf(figure.name());
+
 	}
 
 	@Override
@@ -32,6 +33,7 @@ public class SelectTestFigureOptionListener implements ActionListener {
 		else if(figure == CIRCLE) {
 			CircleFactory.create(driverManager.getCurrentDriver(), 0,0,100).execute();
 		}
+
 
 
 	}
