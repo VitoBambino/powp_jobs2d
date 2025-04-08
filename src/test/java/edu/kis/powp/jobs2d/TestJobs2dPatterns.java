@@ -5,6 +5,8 @@ import java.awt.event.ActionEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import edu.kis.powp.jobs2d.drivers.command.CircleFactory;
+import edu.kis.powp.jobs2d.drivers.command.RectangleFactory;
 import edu.kis.legacy.drawer.panel.DefaultDrawerFrame;
 import edu.kis.legacy.drawer.panel.DrawPanelController;
 import edu.kis.legacy.drawer.shape.LineFactory;
@@ -12,10 +14,13 @@ import edu.kis.powp.appbase.Application;
 import edu.kis.powp.jobs2d.drivers.adapter.FiguresJaneAdapter;
 import edu.kis.powp.jobs2d.drivers.adapter.LineDrawerAdapter;
 import edu.kis.powp.jobs2d.drivers.adapter.MyAdapter;
+import edu.kis.powp.jobs2d.drivers.command.DriverCommand;
+import edu.kis.powp.jobs2d.events.Figure;
 import edu.kis.powp.jobs2d.events.SelectChangeVisibleOptionListener;
 import edu.kis.powp.jobs2d.events.SelectTestFigureOptionListener;
 import edu.kis.powp.jobs2d.features.DrawerFeature;
 import edu.kis.powp.jobs2d.features.DriverFeature;
+import java.awt.event.ActionListener;
 
 public class TestJobs2dPatterns {
 	private final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
@@ -26,15 +31,18 @@ public class TestJobs2dPatterns {
 	 * @param application Application context.
 	 */
 	private static void setupPresetTests(Application application) {
-		SelectTestFigureOptionListener selectTestFigureOptionListener1 = new SelectTestFigureOptionListener(
-				DriverFeature.getDriverManager(), "figureScript1");
 
-		SelectTestFigureOptionListener selectTestFigureOptionListener2 = new SelectTestFigureOptionListener(
-				DriverFeature.getDriverManager(), "figureScript2");
+		application.addTest("Figure Joe 1",new SelectTestFigureOptionListener(
+				DriverFeature.getDriverManager(), Figure.FIGURE_JOE_1));
+		application.addTest("Rectangle",new SelectTestFigureOptionListener(
+				DriverFeature.getDriverManager(), Figure.RECTANGLE));
+		application.addTest("Circle",new SelectTestFigureOptionListener(
+				DriverFeature.getDriverManager(), Figure.CIRCLE));
 
-		application.addTest("Figure Joe 1", selectTestFigureOptionListener1);
-		application.addTest("Figure Joe 2", selectTestFigureOptionListener2);
+
 	}
+
+
 
 	/**
 	 * Setup driver manager, and set default driver for application.
@@ -46,7 +54,8 @@ public class TestJobs2dPatterns {
 		DriverFeature.addDriver("Logger Driver", loggerDriver);
 		DriverFeature.getDriverManager().setCurrentDriver(loggerDriver);
 
-		Job2dDriver testDriver = new MyAdapter();
+		Job2dDriver testDriver = new MyAdapter(DrawerFeature.getDrawerController());
+
 		DriverFeature.addDriver("Buggy Simulator", testDriver);
 
 		// Nowe sterowniki z różnymi typami linii
